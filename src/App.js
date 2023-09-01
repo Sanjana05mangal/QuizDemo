@@ -6,17 +6,19 @@ import './App.css'
 
 function App() {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('')
   //  const [questions, setQuestions] = useState([])
   const [quizStarted, setQuizStarted] = useState(false);
 
-  const handleStart = (userEmail) => {
+  const handleStart = (userEmail,name) => {
     setEmail(userEmail);
+    setName(name)
     setQuizStarted(true);
   };
 
   return (
     <div className="App">
-      {!quizStarted ? <StartPage onStart={handleStart}/> : <QuizPage email={email} />}
+      {!quizStarted ? <StartPage onStart={handleStart} /> : <QuizPage email={email} name={name} />}
     </div>
   );
 }

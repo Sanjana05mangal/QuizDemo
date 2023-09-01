@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Button,Col,Form, Row, Spinner } from 'react-bootstrap';
+import { Alert, Button,Card,Col,Form, Row, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
-const QuizPage =  ({ email}) => {
+const QuizPage =  ({ email,name}) => {
   const [questions, setQuestions] = useState([])
   const [loading, setloading] = useState(true)
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(30*60);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [visitedQuestions, setVisitedQuestions] = useState([]);
   const [attemptedQuestions, setAttemptedQuestions] = useState([]);
+  const [markedQuestions, setMarkedQuestions] = useState([]);
+
   let reportindex = 1;
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,11 +47,34 @@ const QuizPage =  ({ email}) => {
       });
   }, []);
 
-  const handleNextQuestion = () => {
+  const handleQuestionMarkforReview = (questionIndex) => {
+    setMarkedQuestions((prevVisited) => [...new Set([...prevVisited, questionIndex])])
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      
     } else {
-      // Handle quiz completion
+      const response = window.confirm("Do You want to submit Quiz?");
+
+      if (response) {
+        setTimer(0);
+      } else setCurrentQuestion(0);
+      
+    }
+  }
+
+  const handleNextQuestion = () => {
+    handleQuestionNavigation(currentQuestion)
+    if(questions[currentQuestion].your_choice!='')handleQuestionAttempt(currentQuestion)
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      
+    } else {
+      const response = window.confirm("Do You want to submit Quiz?");
+
+      if (response) {
+        setTimer(0);
+      } else setCurrentQuestion(0);
+      
     }
   };
 
@@ -64,10 +89,12 @@ const QuizPage =  ({ email}) => {
 
   const handleQuestionNavigation = (questionIndex) => {
     setCurrentQuestion(questionIndex);
+    if(!visitedQuestions.includes(questionIndex))
     setVisitedQuestions((prevVisited) => [...new Set([...prevVisited, questionIndex])]);
   };
 
   const handleQuestionAttempt = (questionIndex) => {
+    if(!attemptedQuestions.includes(questionIndex))
     setAttemptedQuestions((prevAttempted) => [...new Set([...prevAttempted, questionIndex])]);
   };
 
@@ -75,25 +102,59 @@ const QuizPage =  ({ email}) => {
     <div>
       {timer > 0 ? loading ?(<Spinner></Spinner>):(
         <>
-          <h2>Quiz Timer: {Math.floor(timer / 60)}:{timer % 60}</h2>
-      <div className="overview-panel">
+          <Row>
+            <Col xs={9}  style={{'text-align':'left','padding-left':'30px','background-color':'#edae80'}}>
+              <h2>Hello {name}!</h2>
+            </Col>
+            <Col xs={3} style={{'background-color':'grey'}}>
+              <h2>Quiz Timer: {Math.floor(timer / 60)}:{timer % 60}</h2>
+            </Col>
+             
+          </Row>
+          
+          <div style={{'width':'100%','margin-top':'10px'}} >
+              <Row style={{'text-align':'left'}}>
+                <Col xs={1}><button key='' className='overview-item visited' ></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is visited but not answered or marked</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left'}}>
+                <Col><button key='' className='overview-item '></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is not visited</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left'}}>
+                <Col><button key='' className='overview-item marked'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is marked for review</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left'}}>
+                <Col><button key='' className='overview-item attempted'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is answered</Col>
+              </Row>
+              
+            </div>
+          
+          <div className="overview-panel">
+            <div style={{'width':'50%','display':'flex','justify-content':'space-between','margin-top':'50px'}}>
         {questions?.map((_, index) => (
           
           <button
             key={index}
             className={`overview-item ${visitedQuestions.includes(index) ? 'visited' : ''} ${
               attemptedQuestions.includes(index) ? 'attempted' : ''
-            }`}
+            } ${markedQuestions.includes(index)?'marked':''}`}
             onClick={() => handleQuestionNavigation(index)}
           >
             {index + 1}
           </button>
         ))}
+              </div>
       </div>
       
         <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large'}}>
         <h3>Question {currentQuestion + 1}</h3>
-        
+            
         <p>{questions[currentQuestion]?.question}</p>
         <Form>
           {questions[currentQuestion]?.options?.map(element => 
@@ -112,11 +173,12 @@ const QuizPage =  ({ email}) => {
           </Form>
         
         <Button onClick={handleNextQuestion} variant='success' style={{'margin-right':'20px','margin-top':'40px'}}>Next Question</Button>
-        <Button onClick={() => handleQuestionAttempt(currentQuestion)} variant='warning' style={{'margin-left':'10px','margin-top':'40px'}}>Mark as Attempted</Button>
-      
+        <Button onClick={() => handleQuestionMarkforReview(currentQuestion)} variant='warning' style={{'margin-left':'10px','margin-top':'40px'}}>Mark for review</Button>
+            
         </div>
         </>) : (<>
-          <h2>Quiz Report</h2>
+          <h2>Here is Quiz Report {name}</h2>
+          
           {
             questions?.map(e => (
             <div style={{'text-align':'left','margin-left':'50px'}}>
