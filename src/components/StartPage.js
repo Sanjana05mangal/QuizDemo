@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { Form, Button } from 'react-bootstrap';
+  
 const StartPage = ({ onStart }) => {
   const [email, setEmail] = useState('');
 
@@ -9,17 +10,18 @@ const StartPage = ({ onStart }) => {
   };
 
   return (
-    <div>
+    <div style={{'margin-top':'100px'}}>
       <h1>Welcome to the Quiz!</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="submit">Start Quiz</button>
-      </form>
+       <div className="login-form" style={{'margin-top':'100px'}}>
+      <Form onSubmit={handleSubmit} className='py-3'>
+                <Form.Group controlId='email' className='py-3'>
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control type='email' placeholder='Enter Email Address' value={email} onChange={(e) => { setEmail(e.target.value) }}></Form.Control>
+                </Form.Group>
+               
+                <Button type='submit' variant='primary' onClick={handleSubmit}>Proceed</Button>
+            </Form>
+    </div>
     </div>
   );
 };
