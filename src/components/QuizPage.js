@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const QuizPage =  ({ email,name}) => {
   const [questions, setQuestions] = useState([])
-  const [loading, setloading] = useState(false)
-  const [timer, setTimer] = useState(30*60);
+  const [loading, setloading] = useState(true)
+  const [timer, setTimer] = useState(30);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [visitedQuestions, setVisitedQuestions] = useState([]);
   const [attemptedQuestions, setAttemptedQuestions] = useState([]);
@@ -102,58 +102,34 @@ const QuizPage =  ({ email,name}) => {
     <div>
       {timer > 0 ? loading ?(<Spinner></Spinner>):(
         <>
-          <Row>
+          <Row style={{marginTop:"15px"}}>
             <Col xs={9}  style={{'text-align':'left','padding-left':'30px'}}>
               <h2>Hello {name}!</h2>
             </Col>
-            <Col xs={3} style={{marginTop:"10px"}}>
+            <Col xs={3} style={{marginTop:"10px", marginLeft:'-25px'}}>
               <Button>Quiz Ends In: {Math.floor(timer / 60)}:{timer % 60}</Button>
             </Col>
              
           </Row>
-          <div style={{marginTop:'10px'}} >
-              <Row style={{'text-align':'left'}}>
-                <Col xs={1}><button key='' className='overview-item visited' ></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-60px'}}> Visited but not answered or marked</Col>
-              </Row>
-              
-              <Row style={{'text-align':'left', marginTop:"5px",}}>
-                <Col xs={1}><button key='' className='overview-item '></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-60px'}}> Not visited</Col>
-              </Row>
-              
-              <Row style={{'text-align':'left',  marginTop:"5px"}}>
-                <Col xs={1}><button key='' className='overview-item marked'></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-60px'}}>Marked for review</Col>
-              </Row>
-              
-              <Row style={{'text-align':'left',  marginTop:"5px"}}>
-                <Col xs={1}><button key='' className='overview-item attempted'></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-60px'}}>Answered</Col>
-              </Row>
-              
+          <Row>
+          <Col xs={8}>
+          <div className="overview-panel" style={{ 'display':'flex','justify-content':'space-evenly','margin-top':'25px'}}>
+           
+               {questions?.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`overview-item ${visitedQuestions.includes(index) ? 'visited' : ''} ${
+                      attemptedQuestions.includes(index) ? 'attempted' : ''
+                    } ${markedQuestions.includes(index)?'marked':''}`}
+                    onClick={() => handleQuestionNavigation(index)}
+                  >
+                    {index + 1}
+                  </button>
+                 ))}
             </div>
-          
-          <div className="overview-panel">
-            <div style={{'width':'50%','display':'flex','justify-content':'space-between','margin-top':'50px'}}>
-        {questions?.map((_, index) => (
-          
-          <button
-            key={index}
-            className={`overview-item ${visitedQuestions.includes(index) ? 'visited' : ''} ${
-              attemptedQuestions.includes(index) ? 'attempted' : ''
-            } ${markedQuestions.includes(index)?'marked':''}`}
-            onClick={() => handleQuestionNavigation(index)}
-          >
-            {index + 1}
-          </button>
-        ))}
-              </div>
-      </div>
       
-        <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large'}}>
-        <h3>Question {currentQuestion + 1}</h3>
-            
+        <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large',  marginTop:"10px"}}>
+        <h3>Question {currentQuestion + 1}</h3>  
         <p>{questions[currentQuestion]?.question}</p>
         <Form>
           {questions[currentQuestion]?.options?.map(element => 
@@ -173,8 +149,38 @@ const QuizPage =  ({ email,name}) => {
         
         <Button onClick={handleNextQuestion} variant='success' style={{'margin-right':'20px','margin-top':'40px'}}>Next Question</Button>
         <Button onClick={() => handleQuestionMarkforReview(currentQuestion)} variant='warning' style={{'margin-left':'10px','margin-top':'40px'}}>Mark for review</Button>
+        
+              </div>
+              </Col>
+            <Col xs={4} >
+              <div style={{ 'width': '100%', 'margin-top': '15px' , marginLeft:"100px"}} >
+                
+              <Row style={{'text-align':'left','margin-top':'10px'}}>
+                <Col xs={1}><button key='' className='overview-item visited' ></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Visited but not answered or marked</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left','margin-top':'10px'}}>
+                <Col xs={1}><button key='' className='overview-item '></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Not visited</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left','margin-top':'10px'}}>
+                <Col xs={1}><button key='' className='overview-item marked'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Marked for review</Col>
+              </Row>
+              
+              <Row style={{'text-align':'left','margin-top':'10px'}}>
+                <Col xs={1}><button key='' className='overview-item attempted'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-10px'}}>Answered</Col>
+              </Row>
+              
+            </div>
+            </Col>
             
-        </div>
+          </Row>
+          
+          
         </>) : (<>
           <h2>Here is Quiz Report {name}</h2>
           
