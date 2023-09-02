@@ -5,7 +5,7 @@ import axios from 'axios';
 const QuizPage =  ({ email,name}) => {
   const [questions, setQuestions] = useState([])
   const [loading, setloading] = useState(true)
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(30*60);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [visitedQuestions, setVisitedQuestions] = useState([]);
   const [attemptedQuestions, setAttemptedQuestions] = useState([]);
