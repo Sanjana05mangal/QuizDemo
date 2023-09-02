@@ -7,7 +7,6 @@ import './App.css'
 function App() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('')
-  //  const [questions, setQuestions] = useState([])
   const [quizStarted, setQuizStarted] = useState(false);
 
   const handleStart = (userEmail,name) => {

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const QuizPage =  ({ email,name}) => {
   const [questions, setQuestions] = useState([])
-  const [loading, setloading] = useState(true)
+  const [loading, setloading] = useState(false)
   const [timer, setTimer] = useState(30*60);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [visitedQuestions, setVisitedQuestions] = useState([]);
@@ -19,7 +19,7 @@ const QuizPage =  ({ email,name}) => {
 
     return () => clearInterval(interval);
   }, []);
-
+    
    useEffect(() => {
     axios.get('https://opentdb.com/api.php?amount=15')
       .then(response => {
@@ -103,34 +103,33 @@ const QuizPage =  ({ email,name}) => {
       {timer > 0 ? loading ?(<Spinner></Spinner>):(
         <>
           <Row>
-            <Col xs={9}  style={{'text-align':'left','padding-left':'30px','background-color':'#edae80'}}>
+            <Col xs={9}  style={{'text-align':'left','padding-left':'30px'}}>
               <h2>Hello {name}!</h2>
             </Col>
-            <Col xs={3} style={{'background-color':'grey'}}>
-              <h2>Quiz Timer: {Math.floor(timer / 60)}:{timer % 60}</h2>
+            <Col xs={3} style={{marginTop:"10px"}}>
+              <Button>Quiz Ends In: {Math.floor(timer / 60)}:{timer % 60}</Button>
             </Col>
              
           </Row>
-          
-          <div style={{'width':'100%','margin-top':'10px'}} >
+          <div style={{marginTop:'10px'}} >
               <Row style={{'text-align':'left'}}>
                 <Col xs={1}><button key='' className='overview-item visited' ></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is visited but not answered or marked</Col>
+                <Col xs={11} style={{ 'margin-left':'-60px'}}> Visited but not answered or marked</Col>
               </Row>
               
-              <Row style={{'text-align':'left'}}>
-                <Col><button key='' className='overview-item '></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is not visited</Col>
+              <Row style={{'text-align':'left', marginTop:"5px",}}>
+                <Col xs={1}><button key='' className='overview-item '></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-60px'}}> Not visited</Col>
               </Row>
               
-              <Row style={{'text-align':'left'}}>
-                <Col><button key='' className='overview-item marked'></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is marked for review</Col>
+              <Row style={{'text-align':'left',  marginTop:"5px"}}>
+                <Col xs={1}><button key='' className='overview-item marked'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-60px'}}>Marked for review</Col>
               </Row>
               
-              <Row style={{'text-align':'left'}}>
-                <Col><button key='' className='overview-item attempted'></button></Col>
-                <Col xs={11} style={{ 'margin-left':'-10px'}}>Shows Question is answered</Col>
+              <Row style={{'text-align':'left',  marginTop:"5px"}}>
+                <Col xs={1}><button key='' className='overview-item attempted'></button></Col>
+                <Col xs={11} style={{ 'margin-left':'-60px'}}>Answered</Col>
               </Row>
               
             </div>
