@@ -102,8 +102,8 @@ const QuizPage =  ({ email,name}) => {
     <div>
       {timer > 0 ? loading ?(<Spinner></Spinner>):(
         <>
-          <Row style={{marginTop:"15px"}}>
-            <Col xs={9}  style={{'text-align':'left','padding-left':'30px'}}>
+          <Row style={{marginTop:"20px"}}>
+            <Col xs={9}  style={{'text-align':'left','padding-left':'400px'}}>
               <h2>Hello {name}!</h2>
             </Col>
             <Col xs={3} style={{marginTop:"10px", marginLeft:'-25px'}}>
@@ -111,7 +111,7 @@ const QuizPage =  ({ email,name}) => {
             </Col>
              
           </Row>
-          <Row>
+          <Row style={{marginTop:"25px"}}>
           <Col xs={8}>
           <div className="overview-panel" style={{ 'display':'flex','justify-content':'space-evenly','margin-top':'25px'}}>
            
@@ -128,7 +128,7 @@ const QuizPage =  ({ email,name}) => {
                  ))}
             </div>
       
-        <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large',  marginTop:"10px"}}>
+        <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large',  marginTop:"10px", marginLeft:"20px"}}>
         <h3>Question {currentQuestion + 1}</h3>  
         <p>{questions[currentQuestion]?.question}</p>
         <Form>
@@ -182,11 +182,11 @@ const QuizPage =  ({ email,name}) => {
           
           
         </>) : (<>
-          <h2>Here is Quiz Report {name}</h2>
+          <h2 style={{marginTop:"15px"}}>Here is Quiz Report : {name}</h2>
           
           {
             questions?.map(e => (
-            <div style={{'text-align':'left','margin-left':'50px'}}>
+            <div style={{'text-align':'left','margin-left':'50px', marginTop:"20px"}}>
                 <h5>Q.{reportindex++} {e.question}</h5>
                 <Row>
                   <Col xs={3}>

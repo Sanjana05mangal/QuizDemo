@@ -14,17 +14,17 @@ const StartPage = ({ onStart }) => {
 
   return (
     <div>
-        <h3 style={{marginTop:"35px"}}>Welcome to the Quiz!</h3>
-    <div className="container" style={{width:"70%"}}>
+        <h1 style={{marginTop:"39px"}}>Welcome to the Quiz!</h1>
+    <div className="container">
     <div>
        <div className="login-form" >
       <Form onSubmit={handleSubmit} className='py-3'>
                 <Form.Group controlId='email' className='py-3'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type='email' placeholder='Enter Email Address' value={email} onChange={(e) => { setEmail(e.target.value) }}></Form.Control>
+                    <Form.Label style={{color:"black"}}>Email Address</Form.Label>
+                    <Form.Control  type='email' placeholder='Enter Email Address' value={email} onChange={(e) => { setEmail(e.target.value) }}></Form.Control>
           </Form.Group>
           <Form.Group controlId='name' className='py-3'>
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label style={{color:"black"}}>Name</Form.Label>
                     <Form.Control type='text' placeholder='Enter Your Name' value={name} onChange={(e) => { setName(e.target.value) }}></Form.Control>
                 </Form.Group>
                
