@@ -107,7 +107,7 @@ const QuizPage =  ({ email,name}) => {
               <h2>Hello {name}!</h2>
             </Col>
             <Col xs={3} style={{marginTop:"10px", marginLeft:'-25px'}}>
-              <Button>Quiz Ends In: {Math.floor(timer / 60)}:{timer % 60}</Button>
+              <Button className='questions-spacing'>Quiz Ends In: {Math.floor(timer / 60)}:{timer % 60}</Button>
             </Col>
              
           </Row>
@@ -128,7 +128,7 @@ const QuizPage =  ({ email,name}) => {
                  ))}
             </div>
       
-        <div style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large',  marginTop:"10px", marginLeft:"20px"}}>
+        <div className= 'questions-spacing' style={{ 'text-align':'left','padding-left':'10px', 'font-size':'large',  marginTop:"10px", marginLeft:"20px"}}>
         <h3>Question {currentQuestion + 1}</h3>  
         <p>{questions[currentQuestion]?.question}</p>
         <Form>
@@ -153,7 +153,8 @@ const QuizPage =  ({ email,name}) => {
               </div>
               </Col>
             <Col xs={4} >
-              <div style={{ 'width': '100%', 'margin-top': '15px' , marginLeft:"100px"}} >
+              <div className= 'questions-spacing'
+              style={{ 'width': '100%', 'margin-top': '15px' , marginLeft:"100px"}} >
                 
               <Row style={{'text-align':'left','margin-top':'10px'}}>
                 <Col xs={1}><button key='' className='overview-item visited' ></button></Col>
@@ -183,17 +184,16 @@ const QuizPage =  ({ email,name}) => {
           
         </>) : (<>
           <h2 style={{marginTop:"15px"}}>Here is Quiz Report : {name}</h2>
-          
           {
             questions?.map(e => (
-            <div style={{'text-align':'left','margin-left':'50px', marginTop:"20px"}}>
+            <div className= 'questions-spacing'style={{'text-align':'left','margin-left':'50px', marginTop:"20px", letterSpacing:"2px"}}>
                 <h5>Q.{reportindex++} {e.question}</h5>
                 <Row>
                   <Col xs={3}>
-                    <p><b>Your Choice</b> : <p style={{ 'color': e.your_choice===e.correct_answer?'green':'red'}}> {e.your_choice}</p></p>
+                    <p><b>Your Choice</b> : <p style={{ 'color': e.your_choice===e.correct_answer?'#89d17d':'red'}}> {e.your_choice}</p></p>
                   </Col>
                   <Col xs={3}>
-                    <p><b>Correct Answer</b> :<p style={{'color':'green'}}> {e.correct_answer}</p></p>
+                    <p><b>Correct Answer</b> :<p style={{'color':'#89d17d'}}> {e.correct_answer}</p></p>
                   </Col>
                   <Col xs={3}>
                     <Alert variant={e.your_choice === e.correct_answer ? 'success' : 'danger'}>
